@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->float('balance')->default(0);
             $table->integer('gifts')->default(0);
+            $table->integer('level')->default(1);
             $table->timestamps();
         });
     }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Pet;
 use App\Models\User;
 use App\Models\Asset;
-
+use App\Models\Transaction;
 use Carbon\Carbon;
 
 class PetController extends Controller
@@ -38,6 +38,12 @@ class PetController extends Controller
     // Deduct the pet's price from the user's balance
     $user->balance -= $pet->price;
     $user->save();
+
+    $transaction = new Transaction();
+    $transaction->user_id = $user->id;
+    $transaction->amount = -$pet->price;
+    $transaction->type = 'Bought '.$pet->name;
+    $transaction->save();
 
     // Associate the pet with the user
     $user->pets()->attach($pet);
@@ -119,5 +125,7 @@ public function create()
 
         return redirect()->route('pets.index')->with('success', 'Pet created successfully.');
     }
+
+
 
 }

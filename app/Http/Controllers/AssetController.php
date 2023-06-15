@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Asset;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class AssetController extends Controller
@@ -31,11 +32,17 @@ public function purchase(Asset $asset)
     $user->balance -= $asset->cost;
     $user->save();
 
+    $transaction = new Transaction();
+    $transaction->user_id = $user->id;
+    $transaction->amount = -$asset->cost;
+    $transaction->type = 'Bought '.$asset->name;
+    $transaction->save();
+
     // Associate the asset with the user
     $user->assets()->attach($asset, ['quantity' => 1]);
 
-    
-    
+
+
 
     return back()->with('success', 'Asset purchased successfully.');
 }
@@ -66,5 +73,6 @@ public function create()
 
         return redirect()->route('assets.index')->with('success', 'Asset created successfully.');
     }
+
 
 }

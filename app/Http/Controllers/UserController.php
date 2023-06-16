@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Auth;
+use App\Notifications\FriendRequestNotification;
 
 class UserController extends Controller
 {
@@ -71,5 +73,7 @@ class UserController extends Controller
 
     return view('users.pets', compact('pets'));
 }
+
+
 
 }

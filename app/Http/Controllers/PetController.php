@@ -37,7 +37,12 @@ class PetController extends Controller
 
     // Deduct the pet's price from the user's balance
     $user->balance -= $pet->price;
+    $creditsSpent = $pet->price;
+    $user->total_credits_spent += $creditsSpent;
     $user->save();
+
+    $user->updateLevel();
+    $user->updateBadge();
 
     $transaction = new Transaction();
     $transaction->user_id = $user->id;
@@ -58,8 +63,10 @@ public function feed(Pet $pet)
     $user = auth()->user();
 
     // Check if the user is the owner of the pet
-    if ($pet->user_id === $user->id) {
-        return back()->with('error', 'You cannot feed your own pet.');
+
+    if ($pet->users()->where('user_id', $user->id)->exists()) {
+        // You can handle the error case here, such as redirecting back with an error message
+        return redirect()->back()->with('error', 'You cannot feed your own pet.');
     }
 
     // Check if the pet has already been fed today

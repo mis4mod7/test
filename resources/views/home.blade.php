@@ -21,6 +21,8 @@
                     {{ Auth::user()->gifts }} Gifts - <br>
 
                     {{ Auth::user()->level }}
+
+                    {{ Auth::user()->badge }}
                 </div>
                 @if (auth()->user()->assets()->count() > 0)
                     <div class="card-block">
@@ -48,6 +50,7 @@
             </div>
             <h2>Dynamic Tabs</h2>
 
+
             <ul class="nav nav-tabs">
                 <li class="active" data-active="#home"><a data-toggle="tab" href="#home">Home</a></li>
                 <li data-active="#chatrooms"><a data-toggle="tab" href="#chatrooms">Chatrooms</a></li>
@@ -58,8 +61,8 @@
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active">
                     <h3>HOME</h3>
-                    @forelse ($friends as $friendship)
-                        <li class="list-group-item">{{ $friendship->friend->name }}</li>
+                    @forelse (auth()->user()->getFriends() as $friendship)
+                        <li class="list-group-item">{{ $friendship->name }}</li>
                     @empty
                         <li class="list-group-item">No friends found.</li>
                     @endforelse
@@ -107,6 +110,7 @@
                     @endforelse
                 </div>
             </div>
+            
 
 
         </div>

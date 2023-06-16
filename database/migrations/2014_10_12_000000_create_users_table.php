@@ -19,6 +19,9 @@ return new class extends Migration
             $table->float('balance')->default(0);
             $table->integer('gifts')->default(0);
             $table->integer('level')->default(1);
+            $table->string('badge',20)->default('Newbie');
+            $table->unsignedInteger('total_credits_spent')->default(0);
+            $table->string('badge_image')->nullable();
             $table->timestamps();
         });
     }

@@ -65,5 +65,3 @@ Route::post('/pets', [PetController::class, 'store'])->name('pets.store');
 
 
 
-
-

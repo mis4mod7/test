@@ -30,7 +30,12 @@ public function purchase(Asset $asset)
 
     // Deduct the asset cost from the user's balance
     $user->balance -= $asset->cost;
+    $creditsSpent = $asset->cost;
+    $user->total_credits_spent += $creditsSpent;
     $user->save();
+
+    $user->updateLevel();
+    $user->updateBadge();
 
     $transaction = new Transaction();
     $transaction->user_id = $user->id;

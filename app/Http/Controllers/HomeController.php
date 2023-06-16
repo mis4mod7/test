@@ -25,10 +25,10 @@ class HomeController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $friends = $user->friendships()->with('friend')->get();
+        // $friends = $user->friendships()->with('friend')->get();
         $recentChats = $user->messages()->with('chatroom')->orderByDesc('created_at')->take(5)->get();
         $chatrooms = Chatroom::all();
 
-        return view('home', compact('friends', 'recentChats', 'chatrooms'));
+        return view('home', compact('recentChats', 'chatrooms'));
     }
 }
